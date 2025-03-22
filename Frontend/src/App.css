@@ -1,0 +1,70 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,body,#root{
+  height: 100%;
+  width: 100%;
+}
+
+
+main{
+  height: 100%;
+  width: 100%;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  background-color: rgb(37, 36, 36);
+}
+
+main .left , main .right{
+  height: 100%;
+  flex-basis: 50%;
+  border-radius: 0.7rem;
+}
+
+main .left{
+  background-color: #0c0c0c;
+  position: relative;
+}
+
+.left .code , .code pre , .code pre code{
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background-color: #0c0c0c;
+  border-radius: 0.7rem;
+
+}
+
+main .right{
+  background-color: #343434;
+}
+
+main .left .review{
+  position: absolute;
+  bottom: 2rem;
+  right: 1rem;
+  background-color: rgb(100, 100, 204);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  color:black;
+  user-select: none;
+}
+
+main .right{
+  padding: 1rem 1.7rem;
+  overflow: auto;
+  font-size: 1rem;
+}
+
+.container_login{
+  color: black;
+}
+label{
+  color:white
+}
