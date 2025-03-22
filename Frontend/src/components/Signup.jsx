@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Signup = () => {
   const [name, setname] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -13,12 +15,12 @@ const Signup = () => {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signin`, { name,email, password })
       console.log('Signup successful:', response.data)
       if(response.data.success){
-        alert("user Login Successfully")
+        alert("user Register Successfully")
         
-        return <Navigate to={'/login'} />
-      }
+         return navigate('/login')      }
 
     } catch (error) {
+      alert("Some Error Occured Please Try Again")
       console.error('Error signing up:', error)
     }
     setEmail('')
@@ -95,7 +97,7 @@ const Signup = () => {
             />
           </div>
           <button type="submit">Submit</button>
-          <p style={{color:"black" ,margin:"10px"}}>Already have an account <Link to={'/login'}>Create Account</Link></p>
+          <p style={{color:"black" ,margin:"10px"}}>Already have an account <Link to={'/login'}>Login</Link></p>
         </form>
       </div>
     </div>

@@ -3,7 +3,7 @@ const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken');
 const handleRegister = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        let { name, email, password } = req.body;
         email=email.toLowerCase();
         const user= await UserModel.findOne({email});
         if(user){
@@ -21,6 +21,7 @@ const handleRegister = async (req, res) => {
         });
             
     } catch (error) {
+        console.log(error);
         return res.status(500).json({
             success: false,
             message: "Server error. Please try again.",
@@ -32,7 +33,7 @@ const handleRegister = async (req, res) => {
 
 const handleLogin = async (req, res) => {
     try {
-        const {email, password}=req.body;
+        let {email, password}=req.body;
         email=email.toLowerCase();
         const user= await UserModel.findOne({email});
         if(!user){

@@ -19,6 +19,8 @@ const Login = ({setLoggedIn,loggedIn}) => {
         navigate('/user/editor');
       }
     } catch (error) {
+      alert("Some Error Occured Please Try Again")
+
       console.error("Error logging in:", error);
     }
     setEmail("");
