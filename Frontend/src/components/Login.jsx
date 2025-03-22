@@ -1,28 +1,31 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import '../App.css'
 
-const Login = ({setLoggedIn,loggedIn}) => {
+const Login = ({ setLoggedIn, loggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`, { email, password });
 
-      if(response.data.success){
+      if (response.data.success) {
         setLoggedIn(true);
-        localStorage.setItem('token',response.data.token);
-        localStorage.setItem('loggeduser',response.data.name);
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('loggeduser', response.data.name);
         navigate('/user/editor');
       }
     } catch (error) {
-      alert("Some Error Occured Please Try Again")
-
+      alert(error.response.data.message);
       console.error("Error logging in:", error);
     }
+    setLoading(false);
     setEmail("");
     setPassword("");
   };
@@ -44,11 +47,11 @@ const Login = ({setLoggedIn,loggedIn}) => {
           padding: "20px",
           border: "1px solid black",
           borderRadius: "10px",
-          backgroundColor: "#fff", // Form background color
+          backgroundColor: "#fff",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
         }}
       >
-        <h1 style={{ color: "black" ,margin:'20px'}}>Login</h1>
+        <h1 style={{ color: "black", margin: '20px' }}>Login</h1>
         <form onSubmit={handleSubmit}>
           <div style={{ margin: "10px" }}>
             <label style={{ color: "black", fontSize: "20px" }}>Email: </label>
@@ -66,7 +69,7 @@ const Login = ({setLoggedIn,loggedIn}) => {
             />
           </div>
           <div style={{ margin: "10px" }}>
-            <label style={{ color: "black" ,fontSize:'20px'}}>Password: </label>
+            <label style={{ color: "black", fontSize: '20px' }}>Password: </label>
             <input
               type="password"
               value={password}
@@ -80,8 +83,10 @@ const Login = ({setLoggedIn,loggedIn}) => {
               }}
             />
           </div>
-          <button type="submit">Login</button>
-            <p style={{color:"black" ,margin:"10px"}}>Don't have an account <Link to={'/signup'}>Create Account</Link></p>
+          <button type="submit" disabled={loading} style={{ marginBottom: "10px" }}>
+            {loading ? <div className="spinner"></div> : "Login"}
+          </button>
+          <p style={{ color: "black", margin: "10px" }}>Don't have an account <Link to={'/signup'}>Create Account</Link></p>
         </form>
       </div>
     </div>
