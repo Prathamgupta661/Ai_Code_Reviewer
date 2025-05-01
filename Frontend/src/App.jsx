@@ -29,6 +29,7 @@ function App() {
 
   async function GetReview() {
     setloading(true);
+    setReview('');
     const response =await axios.post(`${import.meta.env.VITE_BACKEND_URL}/ai/get-review`,{code});
 
     setReview(response.data)
