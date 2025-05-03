@@ -5,6 +5,7 @@ const AiRoutes=require('./routes/Ai_routes');
 const UserRoutes=require('./routes/User');
 const cors=require('cors');
 const connectDB = require('./connectdb');
+const Authrouter=require('./routes/GoogleAuth')
 
 connectDB();
 app.use(cors());
@@ -12,6 +13,9 @@ app.use(express.json());
 
 app.use('/ai',AiRoutes);
 app.use('/user',UserRoutes)
+
+app.use('/auth',Authrouter);
+
 app.get('/',(req,res)=>{
     res.send('Hello World!');
 })

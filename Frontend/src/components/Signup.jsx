@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import {GoogleLogin} from '@react-oauth/google'
 import "../App.css";
 
-const Signup = () => {
+const Signup = ({setLoggedIn}) => {
   const [name, setname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,6 +38,30 @@ const Signup = () => {
     setPassword("");
     setname("");
   };
+
+  const handleSucess = async (credentialResponse) => {
+    setLoading(true);
+    const { credential: token } = credentialResponse;
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/auth/google`,
+      { token }
+    );
+    if (response.data.apptoken) {
+      setLoggedIn(true);
+      localStorage.setItem("token", response.data.apptoken);
+      localStorage.setItem("loggeduser", response.data.name);
+      setLoading(false);
+      alert("Login Successful");
+      navigate("/user/editor");
+    } else {
+      alert("Something went wrong, please try again later");
+    }
+  };
+
+  const handleError=()=>{
+    alert("Internal server error");
+    console.log("Login Failed");
+  }
 
   return (
     <div
@@ -115,10 +140,20 @@ const Signup = () => {
           >
             {loading ? <div className="spinner"></div> : "Register"}
           </button>
+          
+        </form>
+        <hr />
+          <p style={{ color: "black", margin: "10px", textAlign: "center" }}>
+            Or
+          </p>
+          {loading ? (
+            <div className="spinner"></div>
+          ) : (
+            <GoogleLogin onSuccess={handleSucess} onError={handleError} />
+          )}
           <p style={{ color: "black", margin: "10px" }}>
             Already have an account <Link to={"/login"}>Login</Link>
           </p>
-        </form>
       </div>
     </div>
   );

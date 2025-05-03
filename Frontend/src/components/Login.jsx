@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import '../App.css'
+import { GoogleLogin } from "@react-oauth/google";
+import "../App.css";
 
 const Login = ({ setLoggedIn, loggedIn }) => {
   const [email, setEmail] = useState("");
@@ -13,13 +14,16 @@ const Login = ({ setLoggedIn, loggedIn }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`, { email, password });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/user/login`,
+        { email, password }
+      );
 
       if (response.data.success) {
         setLoggedIn(true);
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('loggeduser', response.data.name);
-        navigate('/user/editor');
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("loggeduser", response.data.name);
+        navigate("/user/editor");
       }
     } catch (error) {
       alert(error.response.data.message);
@@ -30,6 +34,29 @@ const Login = ({ setLoggedIn, loggedIn }) => {
     setPassword("");
   };
 
+  const handleSucess = async (credentialResponse) => {
+    setLoading(true);
+    const { credential: token } = credentialResponse;
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/auth/google`,
+      { token }
+    );
+    if (response.data.apptoken) {
+      setLoggedIn(true);
+      localStorage.setItem("token", response.data.apptoken);
+      localStorage.setItem("loggeduser", response.data.name);
+      setLoading(false);
+      alert("Login Successful");
+      navigate("/user/editor");
+    } else {
+      alert("Something went wrong, please try again later");
+    }
+  };
+  const handleError = () => {
+    alert("Internal server error");
+    console.log("Login Failed");
+  };
+
   return (
     <div
       style={{
@@ -38,7 +65,7 @@ const Login = ({ setLoggedIn, loggedIn }) => {
         alignItems: "center",
         height: "100vh",
         flexDirection: "column",
-        backgroundColor: "#f0f2f5"
+        backgroundColor: "#f0f2f5",
       }}
     >
       <div
@@ -48,10 +75,10 @@ const Login = ({ setLoggedIn, loggedIn }) => {
           border: "1px solid black",
           borderRadius: "10px",
           backgroundColor: "#fff",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <h1 style={{ color: "black", margin: '20px' }}>Login</h1>
+        <h1 style={{ color: "black", margin: "20px" }}>Login</h1>
         <form onSubmit={handleSubmit}>
           <div style={{ margin: "10px" }}>
             <label style={{ color: "black", fontSize: "20px" }}>Email: </label>
@@ -69,7 +96,9 @@ const Login = ({ setLoggedIn, loggedIn }) => {
             />
           </div>
           <div style={{ margin: "10px" }}>
-            <label style={{ color: "black", fontSize: '20px' }}>Password: </label>
+            <label style={{ color: "black", fontSize: "20px" }}>
+              Password:{" "}
+            </label>
             <input
               type="password"
               value={password}
@@ -83,10 +112,25 @@ const Login = ({ setLoggedIn, loggedIn }) => {
               }}
             />
           </div>
-          <button type="submit" disabled={loading} style={{ marginBottom: "10px" }}>
+          <button
+            type="submit"
+            disabled={loading}
+            style={{ marginBottom: "10px" }}
+          >
             {loading ? <div className="spinner"></div> : "Login"}
           </button>
-          <p style={{ color: "black", margin: "10px" }}>Don't have an account <Link to={'/signup'}>Create Account</Link></p>
+          <hr />
+          <p style={{ color: "black", margin: "10px", textAlign: "center" }}>
+            Or
+          </p>
+          {loading ? (
+            <div className="spinner"></div>
+          ) : (
+            <GoogleLogin onSuccess={handleSucess} onError={handleError} />
+          )}
+          <p style={{ color: "black", margin: "10px" }}>
+            Don't have an account <Link to={"/signup"}>Create Account</Link>
+          </p>
         </form>
       </div>
     </div>
