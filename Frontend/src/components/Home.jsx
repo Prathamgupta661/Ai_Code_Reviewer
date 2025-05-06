@@ -130,7 +130,7 @@ const Home = () => {
       </header>
 
       {/* Hero Section */}
-      <section style={heroStyle}>
+      <section style={heroStyle} loading="lazy">
         <div style={heroOverlayStyle}></div>
         <div style={heroContentStyle}>
           <h2 style={heroHeadingStyle}>Automate Your Code Reviews</h2>
