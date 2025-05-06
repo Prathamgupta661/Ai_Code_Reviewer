@@ -11,6 +11,16 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+
+const url='https://ai-code-reviewer-backend-iotl.onrender.com';
+const time=30000;
+
+function keepAlive() {
+    fetch(url).then(()=>console.log("Reloded")).catch((err)=>console.log("Some error occured : ",err))
+};
+
+setInterval(keepAlive,time);
+
 app.use('/ai',AiRoutes);
 app.use('/user',UserRoutes)
 
