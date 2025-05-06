@@ -9,6 +9,7 @@ const Logout = ({ setLoggedIn }) => {
     setLoggedIn(false);
     localStorage.removeItem('token');
     localStorage.removeItem('loggeduser');
+    localStorage.removeItem('userimg')
     // Redirect to login page
     navigate('/login');
   }, [setLoggedIn, navigate]);

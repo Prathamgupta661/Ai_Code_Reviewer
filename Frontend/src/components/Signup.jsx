@@ -50,6 +50,9 @@ const Signup = ({setLoggedIn}) => {
       setLoggedIn(true);
       localStorage.setItem("token", response.data.apptoken);
       localStorage.setItem("loggeduser", response.data.name);
+      localStorage.setItem("userimg",response.data.userimg)
+      setimg(response.data.userimg)
+
       setLoading(false);
       alert("Login Successful");
       navigate("/user/editor");

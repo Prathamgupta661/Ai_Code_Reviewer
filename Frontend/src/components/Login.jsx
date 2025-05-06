@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import "../App.css";
 
-const Login = ({ setLoggedIn, loggedIn }) => {
+const Login = ({ setLoggedIn, loggedIn,setimg }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,6 +13,7 @@ const Login = ({ setLoggedIn, loggedIn }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/user/login`,
@@ -23,6 +24,9 @@ const Login = ({ setLoggedIn, loggedIn }) => {
         setLoggedIn(true);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("loggeduser", response.data.name);
+        localStorage.setItem("userimg",response.data.userimg)
+        setimg(response.data.userimg)
+
         navigate("/user/editor");
       }
     } catch (error) {
@@ -45,6 +49,10 @@ const Login = ({ setLoggedIn, loggedIn }) => {
       setLoggedIn(true);
       localStorage.setItem("token", response.data.apptoken);
       localStorage.setItem("loggeduser", response.data.name);
+      localStorage.setItem("userimg",response.data.userimg)
+      setimg(response.data.userimg)
+
+
       setLoading(false);
       alert("Login Successful");
       navigate("/user/editor");

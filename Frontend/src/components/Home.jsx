@@ -1,9 +1,12 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom'
 
-const Home = () => {
+const Home = ({loggedIn}) => {
 
     const navigate = useNavigate();
+    if(loggedIn){
+      navigate('/user/editor')
+    }
   const containerStyle = {
     fontFamily: 'Arial, sans-serif',
     margin: 0,

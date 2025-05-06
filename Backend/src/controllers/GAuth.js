@@ -14,11 +14,11 @@ const Gauth=async(req,res)=>{
         const existingUser=await AuthModel.findOne({googleid});
         if(existingUser){
             const apptoken=jwt.sign({id:existingUser._id,name:existingUser.name},process.env.JWT_SECRET,{expiresIn:'1d'});
-            return res.status(200).json({apptoken,name:existingUser.name});
+            return res.status(200).json({apptoken,name:existingUser.name,userimg:existingUser.picture});
         }
         const newuser=await AuthModel.create({name,email,googleid,picture});
         const apptoken=jwt.sign({id:newuser._id,name:newuser.name},process.env.JWT_SECRET,{expiresIn:'1d'});
-        return res.status(200).json({apptoken,name:newuser.name});
+        return res.status(200).json({apptoken,name:newuser.name,userimg:newuser.picture});
     } catch (error) {
         console.log(error);
         return res.status(500).json({error:'Internal server error'});

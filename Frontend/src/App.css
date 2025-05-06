@@ -77,6 +77,34 @@ label{
   height: 24px;
   animation: spin 1s linear infinite;
 }
+.profile{
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  background-color: aliceblue;
+  position: absolute;
+  top: 1rem;
+  right: 2.5rem;
+  cursor: pointer;
+}
+.profileimg{
+  width: 3rem;
+  border-radius: 50%;
+}
+.Logout_link{
+  position: relative;
+  top: 0.7rem;
+  right: 1.1rem;
+  max-height: fit-content;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 0.7rem;
+}
+
+.Logout_link:hover{
+  background-color:#555;
+}
+
 
 @keyframes spin {
   to {
