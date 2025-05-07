@@ -81,7 +81,6 @@ label{
   height: 3rem;
   width: 3rem;
   border-radius: 50%;
-  background-color: aliceblue;
   position: absolute;
   top: 1rem;
   right: 2.5rem;
@@ -91,18 +90,29 @@ label{
   width: 3rem;
   border-radius: 50%;
 }
+.dropdown_container{
+  position: relative;
+  top: 0rem;
+  right: 2.1rem;
+  background-color: aliceblue;
+  color: #000;
+  height: 3rem;
+  width: 5rem;
+  border-radius: 10px;
+}
 .Logout_link{
   position: relative;
   top: 0.7rem;
-  right: 1.1rem;
+  right: 0.1rem;
   max-height: fit-content;
-  border: 1px solid white;
   border-radius: 10px;
-  padding: 0.7rem;
+  padding: 0.8rem 1rem;
+  color: #000;
 }
 
 .Logout_link:hover{
-  background-color:#555;
+  background-color: rgb(90, 90, 230);
+  color: black;
 }
 
 

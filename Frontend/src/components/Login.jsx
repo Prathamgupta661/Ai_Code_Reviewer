@@ -24,8 +24,7 @@ const Login = ({ setLoggedIn, loggedIn,setimg }) => {
         setLoggedIn(true);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("loggeduser", response.data.name);
-        localStorage.setItem("userimg",response.data.userimg)
-        setimg(response.data.userimg)
+        setimg('https://cdn-icons-png.flaticon.com/128/848/848006.png')
 
         navigate("/user/editor");
       }

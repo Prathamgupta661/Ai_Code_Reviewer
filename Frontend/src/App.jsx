@@ -14,6 +14,7 @@ import User from "./components/User";
 import Logout from "./components/Logout";
 import Home from "./components/Home";
 
+
 function App() {
   const [code, setCode] = useState(`function sum()
     {return 1+2;}`);
@@ -28,14 +29,17 @@ function App() {
     localStorage.getItem("token") ? true : false
   );
 
+
   const [model, setmodel] = useState(false);
-  const [img, setimg] = useState();
+  const [img, setimg] = useState("https://cdn-icons-png.flaticon.com/128/848/848006.png");
+  
 
   useEffect(() => {
-    // Retrieve the image from localStorage
     const storedImage = localStorage.getItem("userimg");
-    if (storedImage) {
+    if (storedImage && storedImage !== "undefined") {
       setimg(storedImage);
+    } else {
+      setimg("https://cdn-icons-png.flaticon.com/128/848/848006.png");
     }
   }, []);
   async function GetReview() {
@@ -74,7 +78,7 @@ function App() {
             element={
               <main>
                 <div className="left">
-                  <div className="code">
+                  <div className="code" >
                     <Editor
                       value={code}
                       onValueChange={(code) => setCode(code)}
@@ -96,7 +100,7 @@ function App() {
                       }}
                     />
                   </div>
-                  <div onClick={GetReview} className="review">
+                  <div onClick={GetReview} className="review" aria-label="review" aria-pressed>
                     {" "}
                     Get Review{" "}
                   </div>
@@ -106,13 +110,17 @@ function App() {
                     {loading ? "Loading....." : review}
                   </Markdown>
                 </div>
-                <div className="profile" onClick={() => setmodel(!model)}>
+                <div className="profile" onClick={() => setmodel(!model)} aria-label="profile" aria-expanded> 
                 <img src={img} alt="img" className="profileimg"/>
+                
                   {model && loggedIn && (
+                    <div className="dropdown_container">
                     <Link to="/logout" className="Logout_link">
                       Logout
                     </Link>
+                    </div>
                   )}
+                     
                  
                 </div>
               </main>
